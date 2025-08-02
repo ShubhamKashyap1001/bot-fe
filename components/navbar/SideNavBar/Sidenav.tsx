@@ -1,10 +1,12 @@
 'use client';
-import { Sidebar, SidebarBody, useSidebar } from "../ui/sidebar";
-import {  FaSignOutAlt } from "react-icons/fa";
-import {  signOut } from "next-auth/react";
-import { Button } from "../ui/button";
+import { Sidebar, SidebarBody, useSidebar } from "../../ui/sidebar";
+import { FaSignOutAlt } from "react-icons/fa";
+import { signOut } from "next-auth/react";
+import { Button } from "../../ui/button";
 import { useState } from "react";
-import { CodeforcesLink } from "../links/CodeforcesLinker";
+import { CodeforcesLink } from "../../links/CodeforcesLinker";
+
+
 export const SideNav = ({ type }: { type: string }) => {
     if (type !== "dashboard") return null;
     return (
@@ -17,7 +19,6 @@ export const SideNav = ({ type }: { type: string }) => {
         </div>
     );
 };
-
 
 const NavContent = () => {
     const { open } = useSidebar();
@@ -56,7 +57,7 @@ const NavContent = () => {
                 <div className="px-2 pb-4">
                     <Button
                         variant="destructive"
-                        onClick={() => signOut()}
+                        onClick={() => signOut({ callbackUrl: "/" })}
                         className="w-full flex items-center gap-2 justify-start"
                     >
                         <FaSignOutAlt className="text-base" />
@@ -66,15 +67,10 @@ const NavContent = () => {
             </div>
             {isOpen && (
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-                    <div className="bg-white dark:bg-neutral-900 p-6 rounded-xl shadow-xl w-full max-w-md">
-                        <CodeforcesLink onClose={() => setOpen(false)} />
-                        <Button
-                            variant="secondary"
-                            onClick={()=>{setOpen(false)}}
-                            className="mt-4 w-full"
-                        >
-                            Close
-                        </Button>
+                    <div className=" dark:bg-neutral-900 p-6 rounded-xl max-w-md">
+                        <CodeforcesLink onClose={() => {
+                            setOpen(false)
+                        }} />
                     </div>
                 </div>
             )}
